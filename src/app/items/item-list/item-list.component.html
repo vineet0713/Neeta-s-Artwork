@@ -1,4 +1,20 @@
-<mat-card *ngFor="let item of items">
-	<mat-card-title>{{ item.title }}</mat-card-title>
-	<img mat-card-image [src]="item.imagePath">
-</mat-card>
+<mat-grid-list cols="2">
+	<ng-container *ngFor="let itemPair of items">
+		<mat-grid-tile>
+			<a class="nostyle" [href]="itemPair[0].imagePath">
+				<mat-card>
+					<mat-card-title>{{ itemPair[0].title }}</mat-card-title>
+					<img mat-card-image [src]="itemPair[0].imagePath">
+				</mat-card>
+			</a>
+		</mat-grid-tile>
+		<mat-grid-tile *ngIf="itemPair[1]">
+			<a class="nostyle" [href]="itemPair[1].imagePath">
+				<mat-card>
+					<mat-card-title>{{ itemPair[1].title }}</mat-card-title>
+					<img mat-card-image [src]="itemPair[1].imagePath">
+				</mat-card>
+			</a>
+		</mat-grid-tile>
+	</ng-container>
+</mat-grid-list>

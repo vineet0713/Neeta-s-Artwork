@@ -1,0 +1,11 @@
+.mat-card-image {
+	object-fit: contain;
+	max-width: 550px;
+	max-height: 450px;
+}
+
+a.nostyle:link,
+a.nostyle:visited {
+	text-decoration: inherit;
+	color: inherit;
+}
