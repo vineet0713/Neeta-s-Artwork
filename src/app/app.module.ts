@@ -10,6 +10,7 @@ import { AngularMaterialModule } from './angular-material.module';
 import { HeaderComponent } from './header/header.component';
 import { ItemListComponent } from './items/item-list/item-list.component';
 import { ItemViewComponent } from './items/item-view/item-view.component';
+import { AuthComponent } from './auth/auth.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -19,6 +20,7 @@ import { AppRoutingModule } from './app-routing.module';
     HeaderComponent,
     ItemListComponent,
     ItemViewComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,

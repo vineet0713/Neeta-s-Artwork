@@ -1,0 +1,15 @@
+<mat-card>
+	<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+		<mat-form-field>
+			<input matInput placeholder="Username" [formControlName]="'username'">
+			<mat-error *ngIf="authForm.get('username').invalid">Please enter a username.</mat-error>
+		</mat-form-field>
+		<mat-form-field>
+			<input matInput placeholder="Password" [formControlName]="'password'" type="password">
+			<mat-error *ngIf="authForm.get('password').invalid">Please enter a password.</mat-error>
+		</mat-form-field>
+		<button type="submit" [disabled]="authForm.invalid" mat-raised-button color="accent">{{ buttonText }}</button>
+	</form>
+</mat-card>
+
+<mat-spinner *ngIf="isLoading" style="margin-top: 20px;"></mat-spinner>
