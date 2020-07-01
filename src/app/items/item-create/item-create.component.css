@@ -1,0 +1,23 @@
+mat-form-field {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+/* Hides the input with type file (since we don't want to show that) */
+input[type="file"] {
+	visibility: hidden;
+}
+
+.image-preview {
+	height: 300px;
+	margin: 10px 0;
+}
+
+.image-preview img {
+	height: 100%;
+}
+
+mat-card {
+	width: 80%;
+	margin: 30px auto;	/* top/bottom margins are 30px, left/right margins are auto (so centered!) */
+}

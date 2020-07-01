@@ -2,13 +2,13 @@
 <h1 class="title">{{ viewingItem.title }}</h1>
 <img class="image" [src]="viewingItem.imagePath">
 
-<form class="centered" [formGroup]="commentsForm" (ngSubmit)="onAddComment()" *ngIf="isAuthenticated">
+<form class="centered addComment" [formGroup]="commentsForm" (ngSubmit)="onAddComment()" *ngIf="isAuthenticated">
 	<mat-form-field style="width: 400px;">
 		<input matInput placeholder="Enter Comment" [formControlName]="'comment-content'">
 	</mat-form-field>
 	<button type="submit" [disabled]="!commentsForm.value['comment-content']" mat-raised-button color="primary">Add Comment</button>
 </form>
-<p *ngIf="!isAuthenticated">Please sign in to post a comment.</p>
+<p class="centered addComment" *ngIf="!isAuthenticated">Please sign in to post a comment.</p>
 
 <h2 class="centered commentsHeader">{{ viewingItem.comments.length }} Comment{{ viewingItem.comments.length === 1 ? '' : 's' }}</h2>
 

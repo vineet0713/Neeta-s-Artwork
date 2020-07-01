@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ItemListComponent } from './items/item-list/item-list.component';
 import { ItemViewComponent } from './items/item-view/item-view.component';
 import { AuthComponent } from './auth/auth.component';
+import { ItemCreateComponent } from './items/item-create/item-create.component';
 
 const routes: Routes = [
 	{
@@ -21,6 +22,10 @@ const routes: Routes = [
 	{
 		path: 'signup',
 		component: AuthComponent,
+	},
+	{
+		path: 'create',
+		component: ItemCreateComponent,
 	},
 ];
 

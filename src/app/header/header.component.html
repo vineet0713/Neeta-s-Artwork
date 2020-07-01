@@ -3,5 +3,6 @@
 	<span class="spacer"></span>
 	<a [routerLink]="'/signup'" mat-button routerLinkActive="mat-accent" *ngIf="!isAuthenticated">Signup</a>
 	<a [routerLink]="'/login'" mat-button routerLinkActive="mat-accent" *ngIf="!isAuthenticated">Login</a>
+	<a [routerLink]="'/create'" mat-button routerLinkActive="mat-accent" *ngIf="isAuthenticated && isAdmin">New Item</a>
 	<button mat-button (click)="onLogout()" *ngIf="isAuthenticated">Logout</button>
 </mat-toolbar>
