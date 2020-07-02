@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, UrlSegment } from '@angular/router';
+import { ActivatedRoute, UrlSegment, Router } from '@angular/router';
+
+import { AuthService } from './auth.service';
 
 @Component({
 	selector: 'app-auth',
@@ -10,10 +12,10 @@ import { ActivatedRoute, UrlSegment } from '@angular/router';
 export class AuthComponent implements OnInit {
 	authForm: FormGroup;
 	buttonText: string;
-	isLoading = true;
+	isLoading = false;
 	isSignup = false;
 
-	constructor(private route: ActivatedRoute) { }
+	constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
 
 	ngOnInit() {
 		this.authForm = new FormGroup({
@@ -32,8 +34,34 @@ export class AuthComponent implements OnInit {
 		this.isLoading = true;
 		const username = this.authForm.value['username'];
 		const password = this.authForm.value['password'];
-		console.log(username, password);
-		// Use AuthService to either signup or login the user!
-		this.isLoading = false;
+		if (this.isSignup) {
+			this.signupUser(username, password);
+		} else {
+			this.loginUser(username, password);
+		}
+	}
+
+	signupUser(username: string, password: string) {
+		this.authService.createUser(username, password)
+			.then(response => {
+				this.isLoading = false;
+				this.router.navigate(['login']);
+			})
+			.catch(error => {
+				this.isLoading = false;
+				alert(error.error.message);
+			});
+	}
+
+	loginUser(username: string, password: string) {
+		this.authService.loginUser(username, password)
+			.then(response => {
+				this.isLoading = false;
+				this.router.navigate(['']);
+			})
+			.catch(error => {
+				this.isLoading = false;
+				alert(error.error.message);
+			});
 	}
 }

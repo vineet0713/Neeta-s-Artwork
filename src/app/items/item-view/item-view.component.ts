@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Item } from './../item.model';
 import { Comment } from './../comment.model';
 import { ItemsService } from './../items.service';
+import { AuthService } from './../../auth/auth.service';
 
 @Component({
 	selector: 'app-item-view',
@@ -15,11 +16,10 @@ export class ItemViewComponent implements OnInit {
 	viewingItem: Item;
 	viewingItemComments: Comment[];
 	commentsForm: FormGroup;
-	isAuthenticated = true;
 	isLoadingComments = false;
 	isLoadingAddComment = false;
 
-	constructor(private itemsService: ItemsService, private route: ActivatedRoute) { }
+	constructor(private itemsService: ItemsService, private route: ActivatedRoute, private authService: AuthService) { }
 
 	ngOnInit() {
 		this.commentsForm = new FormGroup({
@@ -47,4 +47,6 @@ export class ItemViewComponent implements OnInit {
 		this.isLoadingAddComment = true;
 		setTimeout(() => this.isLoadingAddComment = false, 2000);
 	}
+
+	isAuth() { return this.authService.isAuthenticated(); }
 }

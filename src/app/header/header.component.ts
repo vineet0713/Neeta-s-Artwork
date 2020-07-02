@@ -1,20 +1,17 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AuthService } from './../auth/auth.service';
+
 @Component({
 	selector: 'app-header',
 	templateUrl: './header.component.html',
 	styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
-	isAuthenticated = true;
-	isAdmin = true;
+	constructor(private router: Router, private authService: AuthService) { }
 
-	constructor(private router: Router) { }
-
-	onLogout() {
-		this.isAuthenticated = false;
-		this.isAdmin = false;
-		this.router.navigate(['']);
-	}
+	onLogout() { this.authService.logoutUser(); }
+	isAuth() { return this.authService.isAuthenticated(); }
+	isAdmin() { return this.authService.isAdmin(); }
 }
