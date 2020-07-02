@@ -3,6 +3,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Item } from './../item.model';
+import { Comment } from './../comment.model';
 import { ItemsService } from './../items.service';
 
 @Component({
@@ -12,8 +13,11 @@ import { ItemsService } from './../items.service';
 })
 export class ItemViewComponent implements OnInit {
 	viewingItem: Item;
-	isAuthenticated = true;
+	viewingItemComments: Comment[];
 	commentsForm: FormGroup;
+	isAuthenticated = true;
+	isLoadingComments = false;
+	isLoadingAddComment = false;
 
 	constructor(private itemsService: ItemsService, private route: ActivatedRoute) { }
 
@@ -23,6 +27,15 @@ export class ItemViewComponent implements OnInit {
 		});
 		this.route.paramMap.subscribe((paramMap: ParamMap) => {
 			const itemId = paramMap.get('itemId');
+			this.isLoadingComments = true;
+			setTimeout(() => {
+				this.viewingItemComments = this.itemsService.getComments(itemId);
+				this.isLoadingComments = false;
+			}, 2000);
+			if (this.itemsService.itemToView) {
+				this.viewingItem = this.itemsService.itemToView;
+				return;
+			}
 			this.viewingItem = this.itemsService.getItem(itemId);
 		});
 	}
@@ -31,5 +44,7 @@ export class ItemViewComponent implements OnInit {
 		const commentContent = this.commentsForm.value['comment-content'];
 		console.log(commentContent);
 		this.commentsForm.reset();
+		this.isLoadingAddComment = true;
+		setTimeout(() => this.isLoadingAddComment = false, 2000);
 	}
 }

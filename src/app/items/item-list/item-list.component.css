@@ -4,10 +4,12 @@
 	max-height: 400px;
 }
 
-a.nostyle:link,
-a.nostyle:visited {
-	text-decoration: inherit;
+button {
+	background: none;
 	color: inherit;
+	outline: inherit;
+	border: none;
+	cursor: pointer;
 }
 
 mat-spinner {

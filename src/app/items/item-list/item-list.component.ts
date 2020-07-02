@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { PageEvent, MatPaginator } from '@angular/material';
 
 import { Item } from './../item.model';
@@ -21,10 +22,15 @@ export class ItemListComponent implements OnInit {
 	currentPage = 1;
 	pageOptions = [1, 2, 4, 10];
 
-	constructor(private itemsService: ItemsService) { }
+	constructor(private itemsService: ItemsService, private router: Router) { }
 
 	ngOnInit() {
 		this.items = this.itemsService.getItems(this.postsPerPage, this.currentPage);
+	}
+
+	onItemSelected(item: Item) {
+		this.itemsService.itemToView = item;
+		this.router.navigate(['view', item.id]);
 	}
 
 	onChangedPage(pageData: PageEvent) {

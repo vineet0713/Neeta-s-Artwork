@@ -3,12 +3,12 @@
 <mat-grid-list cols="2" rowHeight="1.1:1">
 	<ng-container *ngFor="let itemPair of items">
 		<mat-grid-tile *ngFor="let item of itemPair">
-			<a class="nostyle" [routerLink]="['/view/', item.id]">
+			<button (click)="onItemSelected(item)">
 				<mat-card>
 					<mat-card-title>{{ item.title }}</mat-card-title>
 					<img mat-card-image [src]="item.imagePath">
 				</mat-card>
-			</a>
+			</button>
 		</mat-grid-tile>
 	</ng-container>
 </mat-grid-list>

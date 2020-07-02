@@ -1,17 +1,20 @@
 .back {
 	margin-left: 20px;
-	margin-top: 20px;
+	position: absolute;
+	float: left;
 }
 
 .title {
-	width: 100%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 	text-align: center;
 }
 
 .image {
 	object-fit: contain;
 	width: 100%;
-	max-height: 450px;
+	max-height: 550px;
 	margin-bottom: 30px;
 }
 
@@ -35,4 +38,8 @@ button {
 .addComment {
 	margin-top: 20px;
 	margin-bottom: 60px;
+}
+
+mat-spinner {
+	margin: 30px auto;
 }
