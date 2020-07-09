@@ -1,6 +1,9 @@
 <a class="back" mat-fab [routerLink]="['']">< BACK</a>
-<h1 class="title">{{ viewingItem.title }}</h1>
-<img class="image" [src]="viewingItem.imagePath">
+<div *ngIf="!isLoadingItem">
+	<h1 class="title">{{ viewingItem.title }}</h1>
+	<img class="image" [src]="viewingItem.imagePath">
+</div>
+<mat-spinner *ngIf="isLoadingItem"></mat-spinner>
 
 <div *ngIf="!isLoadingAddComment">
 	<form class="centered addComment" [formGroup]="commentsForm" (ngSubmit)="onAddComment()" *ngIf="isAuth()">

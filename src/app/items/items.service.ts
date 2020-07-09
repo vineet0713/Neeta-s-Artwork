@@ -10,33 +10,6 @@ import { Comment } from './comment.model';
 	providedIn: 'root',
 })
 export class ItemsService {
-	private items: Item[] = [
-		{
-			id: 'a',
-			title: 'Test Artwork 1',
-			imagePath: 'https://vistapointe.net/images/artwork-2.jpg',
-		},
-		{
-			id: 'b',
-			title: 'Test Artwork 2',
-			imagePath: 'https://i.etsystatic.com/18641759/r/il/d1d79e/1916230477/il_1588xN.1916230477_i5e7.jpg',
-		},
-		{
-			id: 'c',
-			title: 'Test Artwork 3',
-			imagePath: 'https://cdn.hpm.io/wp-content/uploads/2019/01/18144635/2019-Marathon-Artwork-JanaviFolmsbee-AFletcher-1000x667.jpg',
-		},
-		{
-			id: 'd',
-			title: 'Test Artwork 4',
-			imagePath: 'https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/sunset-boat-landscape-artwork-painting-andres-ramos.jpg',
-		},
-		{
-			id: 'e',
-			title: 'Test Artwork 5',
-			imagePath: 'https://royalthaiart.com/wp-content/uploads/2019/07/peacock-framed-art.jpg',
-		},
-	];
 	private comments: Comment[] = [
 		{ itemId: 'a', creator: 'vineet0713', content: 'Comment 1 a' },
 		{ itemId: 'a', creator: 'vajoshi', content: 'Comment 2 a' },
@@ -78,20 +51,17 @@ export class ItemsService {
 		return this.httpClient.post(endpoint, itemData).toPromise();
 	}
 
-	getItems(pageSize: number, page: number): Item[][] {
-		const start = (page - 1) * pageSize;
-		const end = start + pageSize;
-		return this.convertToPairs(this.items.slice(start, end));
+	getItems(pageSize: number, page: number) {
+		const queryParams = `?pageSize=${pageSize}&page=${page}`;
+		const endpoint = environment.API_URL + 'items' + queryParams;
+		type responseType = { message: string, items: any, totalItems: number };
+		return this.httpClient.get<responseType>(endpoint).toPromise();
 	}
 
 	getItem(itemId: string) {
-		// This will eventually use HttpClient to get the full Item data from server!
-		for (let item of this.items) {
-			if (item.id === itemId) {
-				return item;
-			}
-		}
-		return null;
+		const endpoint = environment.API_URL + 'item/' + itemId;
+		type responseType = { message: string, item: any };
+		return this.httpClient.get<responseType>(endpoint).toPromise();
 	}
 
 	getComments(itemId: string): Comment[] {
@@ -102,17 +72,5 @@ export class ItemsService {
 			}
 		}
 		return fetchedComments;
-	}
-
-	private convertToPairs(items: Item[]): Item[][] {
-		const itemPairs: Item[][] = [];
-		for (let i = 0; i < items.length; i += 2) {
-			const itemPair = [ items[i] ];
-			if (i + 1 < items.length) {
-				itemPair.push(items[i+1]);
-			}
-			itemPairs.push(itemPair);
-		}
-		return itemPairs;
 	}
 }

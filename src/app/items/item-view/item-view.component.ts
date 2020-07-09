@@ -16,6 +16,7 @@ export class ItemViewComponent implements OnInit {
 	viewingItem: Item;
 	viewingItemComments: Comment[];
 	commentsForm: FormGroup;
+	isLoadingItem = false;
 	isLoadingComments = false;
 	isLoadingAddComment = false;
 
@@ -36,7 +37,16 @@ export class ItemViewComponent implements OnInit {
 				this.viewingItem = this.itemsService.itemToView;
 				return;
 			}
-			this.viewingItem = this.itemsService.getItem(itemId);
+			this.isLoadingItem = true;
+			this.itemsService.getItem(itemId)
+				.then(response => {
+					this.viewingItem = response.item;
+					this.isLoadingItem = false;
+				})
+				.catch(error => {
+					this.isLoadingItem = false;
+					alert(error.message);
+				});
 		});
 	}
 

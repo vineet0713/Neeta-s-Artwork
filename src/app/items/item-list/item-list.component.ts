@@ -17,31 +17,57 @@ export class ItemListComponent implements OnInit {
 	items: Item[][];
 
 	isLoading = false;
-	totalPosts = 5;
-	postsPerPage = 2;
+	totalItems = 5;
+	itemsPerPage = 2;
 	currentPage = 1;
 	pageOptions = [1, 2, 4, 10];
 
 	constructor(private itemsService: ItemsService, private router: Router) { }
 
 	ngOnInit() {
-		this.items = this.itemsService.getItems(this.postsPerPage, this.currentPage);
+		this.fetchItems();
+	}
+
+	fetchItems() {
+		this.isLoading = true;
+		this.itemsService.getItems(this.itemsPerPage, this.currentPage)
+			.then(response => {
+				this.totalItems = response.totalItems;
+				this.items = this.convertToPairs(response.items);
+				this.isLoading = false;
+			})
+			.catch(error => {
+				this.isLoading = false;
+				alert(error.message);
+			});
 	}
 
 	onItemSelected(item: Item) {
 		this.itemsService.itemToView = item;
-		this.router.navigate(['view', item.id]);
+		this.router.navigate(['view', item._id]);
 	}
 
 	onChangedPage(pageData: PageEvent) {
-		if (pageData.pageSize === this.postsPerPage) {
+		if (pageData.pageSize === this.itemsPerPage) {
 			this.currentPage = pageData.pageIndex + 1;
 		} else {
-			this.postsPerPage = pageData.pageSize;
+			this.itemsPerPage = pageData.pageSize;
 			this.currentPage = 1;
 			this.paginator.firstPage();
 		}
 		// Reload the posts with the updated range.
-		this.items = this.itemsService.getItems(this.postsPerPage, this.currentPage);
+		this.fetchItems();
+	}
+
+	private convertToPairs(items: Item[]): Item[][] {
+		const itemPairs: Item[][] = [];
+		for (let i = 0; i < items.length; i += 2) {
+			const itemPair = [ items[i] ];
+			if (i + 1 < items.length) {
+				itemPair.push(items[i+1]);
+			}
+			itemPairs.push(itemPair);
+		}
+		return itemPairs;
 	}
 }
