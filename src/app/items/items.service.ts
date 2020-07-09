@@ -1,4 +1,7 @@
+import { environment } from '../../environments/environment';
+
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import { Item } from './item.model';
 import { Comment } from './comment.model';
@@ -55,6 +58,25 @@ export class ItemsService {
 	];
 	
 	itemToView: Item = null;
+
+	constructor(private httpClient: HttpClient) { }
+
+	uploadImageFile(imageFile: File, imageTitle: string) {
+		const imageData = new FormData();
+		imageData.append('file', imageFile, imageTitle);
+		type responseType = { imagePath: string };
+		const endpoint = environment.API_URL + 'uploadimage';
+		return this.httpClient.post<responseType>(endpoint, imageData).toPromise();
+	}
+
+	postItem(itemToPost: Item) {
+		const endpoint = environment.API_URL + 'item';
+		const itemData = {
+			title: itemToPost.title,
+			imagePath: itemToPost.imagePath,
+		};
+		return this.httpClient.post(endpoint, itemData).toPromise();
+	}
 
 	getItems(pageSize: number, page: number): Item[][] {
 		const start = (page - 1) * pageSize;

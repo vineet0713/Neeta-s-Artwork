@@ -21,3 +21,7 @@ mat-card {
 	width: 80%;
 	margin: 30px auto;	/* top/bottom margins are 30px, left/right margins are auto (so centered!) */
 }
+
+mat-spinner {
+	margin: 20px auto;
+}

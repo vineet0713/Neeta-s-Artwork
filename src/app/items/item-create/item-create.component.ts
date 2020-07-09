@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { ItemsService } from './../items.service';
 
 @Component({
 	selector: 'app-item-create',
@@ -9,6 +12,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class ItemCreateComponent implements OnInit {
 	itemForm: FormGroup;
 	imagePreview: string;
+	isLoading = false;
+
+	constructor(private itemsService: ItemsService, private router: Router) { }
 
 	ngOnInit() {
 		this.itemForm = new FormGroup({
@@ -18,11 +24,24 @@ export class ItemCreateComponent implements OnInit {
 	}
 
 	onCreateItem() {
-		const newItem = {
-			title: this.itemForm.value['title'],
-			image: this.itemForm.value['image'],
-		};
-		// Use ItemService to post this data to the server!
+		const title = this.itemForm.value['title'];
+		const image = this.itemForm.value['image'];
+		this.isLoading = true;
+		this.itemsService.uploadImageFile(image, title)
+			.then(response => {
+				const itemToPost = {
+					title: title,
+					imagePath: response.imagePath,
+				};
+				return this.itemsService.postItem(itemToPost);
+			})
+			.then(response => {
+				this.router.navigate(['']);
+			})
+			.catch(error => {
+				this.isLoading = false;
+				alert(error);
+			});
 	}
 
 	onImagePicked(event: Event) {
