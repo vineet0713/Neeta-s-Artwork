@@ -28,34 +28,56 @@ export class ItemViewComponent implements OnInit {
 		});
 		this.route.paramMap.subscribe((paramMap: ParamMap) => {
 			const itemId = paramMap.get('itemId');
-			this.isLoadingComments = true;
-			setTimeout(() => {
-				this.viewingItemComments = this.itemsService.getComments(itemId);
-				this.isLoadingComments = false;
-			}, 2000);
+			this.loadComments(itemId);
 			if (this.itemsService.itemToView) {
 				this.viewingItem = this.itemsService.itemToView;
-				return;
+			} else {
+				this.loadItem(itemId);
 			}
-			this.isLoadingItem = true;
-			this.itemsService.getItem(itemId)
-				.then(response => {
-					this.viewingItem = response.item;
-					this.isLoadingItem = false;
-				})
-				.catch(error => {
-					this.isLoadingItem = false;
-					alert(error.message);
-				});
 		});
+	}
+
+	loadItem(itemId: string) {
+		this.isLoadingItem = true;
+		this.itemsService.getItem(itemId)
+			.then(response => {
+				this.viewingItem = response.item;
+				this.itemsService.itemToView = response.item;
+				this.isLoadingItem = false;
+			})
+			.catch(error => {
+				this.isLoadingItem = false;
+				alert(error.message);
+			});
+	}
+
+	loadComments(itemId: string) {
+		this.isLoadingComments = true;
+		this.itemsService.getComments(itemId)
+			.then(response => {
+				this.viewingItemComments = response.comments;
+				this.isLoadingComments = false;
+			})
+			.catch(error => {
+				this.isLoadingComments = false;
+				alert(error.message);
+			});
 	}
 
 	onAddComment() {
 		const commentContent = this.commentsForm.value['comment-content'];
-		console.log(commentContent);
+		const commentCreator = this.authService.getUserId();
 		this.commentsForm.reset();
 		this.isLoadingAddComment = true;
-		setTimeout(() => this.isLoadingAddComment = false, 2000);
+		this.itemsService.postComment(commentContent, commentCreator)
+			.then(response => {
+				this.isLoadingAddComment = false;
+				this.loadComments(this.viewingItem._id);
+			})
+			.catch(error => {
+				this.isLoadingAddComment = false;
+				alert(error.message);
+			});
 	}
 
 	isAuth() { return this.authService.isAuthenticated(); }

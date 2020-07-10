@@ -1,6 +1,7 @@
 export interface Comment {
-	id?: string;
-	itemId: string;
-	creator: string;
+	_id?: string;
 	content: string;
+	itemId: string;
+	creatorId?: string;
+	creator?: string;
 };
