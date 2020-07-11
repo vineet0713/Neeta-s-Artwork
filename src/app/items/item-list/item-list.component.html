@@ -1,9 +1,10 @@
 <div class="filter">
-	<mat-button-toggle-group [multiple]="true" (change)="onFilterChange($event.value)">
+	<mat-button-toggle-group [multiple]="true" (change)="onFilterChange($event.value)" [(ngModel)]="filters">
 		<mat-button-toggle value="Painting">Paintings</mat-button-toggle>
 		<mat-button-toggle value="Drawing">Drawings</mat-button-toggle>
 		<mat-button-toggle value="Bead">Beads</mat-button-toggle>
 	</mat-button-toggle-group>
+	<button mat-flat-button color="accent" class="clearFilters" [disabled]="!filters.length" (click)="onFilterChange([]);">Clear Filters</button>
 </div>
 
 <mat-spinner style="margin: 30px auto;" *ngIf="isLoading"></mat-spinner>
