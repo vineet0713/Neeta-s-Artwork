@@ -24,15 +24,11 @@ export class ItemsService {
 
 	postItem(itemToPost: Item) {
 		const endpoint = environment.API_URL + 'item';
-		const itemData = {
-			title: itemToPost.title,
-			imagePath: itemToPost.imagePath,
-		};
-		return this.httpClient.post(endpoint, itemData).toPromise();
+		return this.httpClient.post(endpoint, itemToPost).toPromise();
 	}
 
-	getItems(pageSize: number, page: number) {
-		const queryParams = `?pageSize=${pageSize}&page=${page}`;
+	getItems(pageSize: number, page: number, filters: string[]) {
+		const queryParams = `?pageSize=${pageSize}&page=${page}&filters=${filters.join(',')}`;
 		const endpoint = environment.API_URL + 'items' + queryParams;
 		type responseType = { message: string, items: any, totalItems: number };
 		return this.httpClient.get<responseType>(endpoint).toPromise();

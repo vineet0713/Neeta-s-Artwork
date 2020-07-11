@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { Item } from './../item.model';
 import { ItemsService } from './../items.service';
 
 @Component({
@@ -19,18 +20,21 @@ export class ItemCreateComponent implements OnInit {
 	ngOnInit() {
 		this.itemForm = new FormGroup({
 			'title': new FormControl(null, Validators.required),
+			'type': new FormControl(null, Validators.required),
 			'image': new FormControl(null, Validators.required),
 		});
 	}
 
 	onCreateItem() {
 		const title = this.itemForm.value['title'];
+		const type = this.itemForm.value['type'];
 		const image = this.itemForm.value['image'];
 		this.isLoading = true;
 		this.itemsService.uploadImageFile(image, title)
 			.then(response => {
-				const itemToPost = {
+				const itemToPost: Item = {
 					title: title,
+					type: type,
 					imagePath: response.imagePath,
 				};
 				return this.itemsService.postItem(itemToPost);

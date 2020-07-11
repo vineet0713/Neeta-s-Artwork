@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageEvent, MatPaginator } from '@angular/material';
 
@@ -22,15 +22,20 @@ export class ItemListComponent implements OnInit {
 	currentPage = 1;
 	pageOptions = [1, 2, 4, 10];
 
+	matgridRatio = '1.3:1';
+
+	filters: string[] = [];
+
 	constructor(private itemsService: ItemsService, private router: Router) { }
 
 	ngOnInit() {
 		this.fetchItems();
+		this.updateMatGridRatio();
 	}
 
 	fetchItems() {
 		this.isLoading = true;
-		this.itemsService.getItems(this.itemsPerPage, this.currentPage)
+		this.itemsService.getItems(this.itemsPerPage, this.currentPage, this.filters)
 			.then(response => {
 				this.totalItems = response.totalItems;
 				this.items = this.convertToPairs(response.items);
@@ -69,5 +74,19 @@ export class ItemListComponent implements OnInit {
 			itemPairs.push(itemPair);
 		}
 		return itemPairs;
+	}
+
+	@HostListener('window:resize', ['$event'])
+	onResize(event) {
+		this.updateMatGridRatio();
+	}
+
+	private updateMatGridRatio() { this.matgridRatio = `${+window.innerWidth / 1440 * 1.3}:1`; }
+
+	onFilterChange(filteredValues) {
+		this.filters = filteredValues;
+		this.currentPage = 1;
+		this.paginator.firstPage();
+		this.fetchItems();
 	}
 }

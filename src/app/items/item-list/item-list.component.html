@@ -1,6 +1,14 @@
-<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="filter">
+	<mat-button-toggle-group [multiple]="true" (change)="onFilterChange($event.value)">
+		<mat-button-toggle value="Painting">Paintings</mat-button-toggle>
+		<mat-button-toggle value="Drawing">Drawings</mat-button-toggle>
+		<mat-button-toggle value="Bead">Beads</mat-button-toggle>
+	</mat-button-toggle-group>
+</div>
 
-<mat-grid-list cols="2" rowHeight="1.1:1" *ngIf="!isLoading">
+<mat-spinner style="margin: 30px auto;" *ngIf="isLoading"></mat-spinner>
+
+<mat-grid-list cols="2" [rowHeight]="matgridRatio" *ngIf="!isLoading">
 	<ng-container *ngFor="let itemPair of items">
 		<mat-grid-tile *ngFor="let item of itemPair">
 			<button (click)="onItemSelected(item)">
