@@ -1,7 +1,7 @@
 <mat-card>
 	<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
 		<mat-form-field>
-			<input matInput placeholder="Username" [formControlName]="'username'" autocorrect="off" autocapitalize="none">
+			<input matInput placeholder="Username" [formControlName]="'username'" autocapitalize="none">
 			<mat-error *ngIf="authForm.get('username').invalid">Please enter a username.</mat-error>
 		</mat-form-field>
 		<mat-form-field>
