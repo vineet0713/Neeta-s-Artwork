@@ -1,8 +1,11 @@
-<mat-card>
+<mat-card *ngIf="!isLoading">
 	<form [formGroup]="itemForm" (ngSubmit)="onCreateItem()">
 		<mat-form-field>
 			<input matInput placeholder="Title" [formControlName]="'title'">
 			<mat-error *ngIf="itemForm.get('title').invalid">Please enter a title.</mat-error>
+		</mat-form-field>
+		<mat-form-field>
+			<input matInput placeholder="Description (Optional)" [formControlName]="'description'">
 		</mat-form-field>
 		<mat-form-field style="width: 250px;">
 			<mat-label>Select Type</mat-label>
@@ -10,6 +13,7 @@
 				<mat-option value="Painting">Painting</mat-option>
 				<mat-option value="Drawing">Drawing</mat-option>
 				<mat-option value="Bead">Bead</mat-option>
+				<mat-option value="Craft">Craft</mat-option>
 			</mat-select>
 		</mat-form-field>
 		<div>

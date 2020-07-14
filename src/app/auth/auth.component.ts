@@ -32,7 +32,7 @@ export class AuthComponent implements OnInit {
 
 	onSubmit() {
 		this.isLoading = true;
-		const username = this.authForm.value['username'];
+		const username = this.authForm.value['username'].trim();
 		const password = this.authForm.value['password'];
 		if (this.isSignup) {
 			this.signupUser(username, password);

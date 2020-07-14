@@ -1,6 +1,7 @@
 <a class="back" mat-fab [routerLink]="['']">< BACK</a>
 <div *ngIf="!isLoadingItem">
-	<h1 class="title">{{ viewingItem.title }}</h1>
+	<h1 class="topText">{{ viewingItem.title }}</h1>
+	<h4 class="topText" *ngIf="viewingItem.description">{{ viewingItem.description }}</h4>
 	<img class="image" [src]="viewingItem.imagePath">
 </div>
 <mat-spinner *ngIf="isLoadingItem"></mat-spinner>

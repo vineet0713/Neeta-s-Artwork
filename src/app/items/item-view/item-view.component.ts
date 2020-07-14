@@ -65,7 +65,7 @@ export class ItemViewComponent implements OnInit {
 	}
 
 	onAddComment() {
-		const commentContent = this.commentsForm.value['comment-content'];
+		const commentContent = this.commentsForm.value['comment-content'].trim();
 		const commentCreator = this.authService.getUserId();
 		this.commentsForm.reset();
 		this.isLoadingAddComment = true;

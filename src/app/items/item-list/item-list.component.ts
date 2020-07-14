@@ -17,10 +17,10 @@ export class ItemListComponent implements OnInit {
 	items: Item[][];
 
 	isLoading = false;
-	totalItems = 5;
-	itemsPerPage = 2;
+	totalItems = 0;
+	itemsPerPage = 4;
 	currentPage = 1;
-	pageOptions = [1, 2, 4, 10];
+	pageOptions = [2, 4, 10, 20];
 
 	matgridRatio = '1.3:1';
 

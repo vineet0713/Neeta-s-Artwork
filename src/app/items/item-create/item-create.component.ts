@@ -20,13 +20,15 @@ export class ItemCreateComponent implements OnInit {
 	ngOnInit() {
 		this.itemForm = new FormGroup({
 			'title': new FormControl(null, Validators.required),
+			'description': new FormControl(null),
 			'type': new FormControl(null, Validators.required),
 			'image': new FormControl(null, Validators.required),
 		});
 	}
 
 	onCreateItem() {
-		const title = this.itemForm.value['title'];
+		const title = this.itemForm.value['title'].trim();
+		const description = this.itemForm.value['description'].trim();
 		const type = this.itemForm.value['type'];
 		const image = this.itemForm.value['image'];
 		this.isLoading = true;
@@ -34,6 +36,7 @@ export class ItemCreateComponent implements OnInit {
 			.then(response => {
 				const itemToPost: Item = {
 					title: title,
+					description: description,
 					type: type,
 					imagePath: response.imagePath,
 				};
