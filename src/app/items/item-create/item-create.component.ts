@@ -28,7 +28,7 @@ export class ItemCreateComponent implements OnInit {
 
 	onCreateItem() {
 		const title = this.itemForm.value['title'].trim();
-		const description = this.itemForm.value['description'].trim();
+		const description = this.itemForm.value['description'];
 		const type = this.itemForm.value['type'];
 		const image = this.itemForm.value['image'];
 		this.isLoading = true;
@@ -36,10 +36,12 @@ export class ItemCreateComponent implements OnInit {
 			.then(response => {
 				const itemToPost: Item = {
 					title: title,
-					description: description,
 					type: type,
 					imagePath: response.imagePath,
 				};
+				if (description) {
+					itemToPost.description = description.trim();
+				}
 				return this.itemsService.postItem(itemToPost);
 			})
 			.then(response => {
